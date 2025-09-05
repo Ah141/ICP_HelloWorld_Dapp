@@ -1,31 +1,49 @@
 import { useState } from 'react';
-import { Hello_world_backend } from 'declarations/Hello_world_backend';
+import { backend } from 'declarations/backend';
 
-function App() {
+export default function HelloWorld() {
+  const [name, setName] = useState('');
   const [greeting, setGreeting] = useState('');
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    const name = event.target.elements.name.value;
-    Hello_world_backend.greet(name).then((greeting) => {
-      setGreeting(greeting);
-    });
-    return false;
-  }
+  const handleSubmit = async () => {
+    if (!name.trim()) return;
+    
+    const greetingMessage = await backend.greet(name);
+    setGreeting(greetingMessage);
+  };
 
   return (
-    <main>
-      <img src="/logo2.svg" alt="DFINITY logo" />
-      <br />
-      <br />
-      <form action="#" onSubmit={handleSubmit}>
-        <label htmlFor="name">Enter your name: &nbsp;</label>
-        <input id="name" alt="Name" type="text" />
-        <button type="submit">Click Me!</button>
-      </form>
-      <section id="greeting">{greeting}</section>
-    </main>
+    <div style={{
+      padding: '10px 60px',
+      fontFamily: 'sans-serif',
+      fontSize: '1.5rem'
+    }}>
+      <main>
+        <div>
+          <label htmlFor="name">Enter your name: &nbsp;</label>
+          <input
+            id="name"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
+          />
+          <button onClick={handleSubmit}>
+            Click Me!
+          </button>
+        </div>
+        
+        <section 
+          style={{
+            margin: '10px auto',
+            padding: '10px 60px',
+            border: '1px solid #222',
+            display: greeting ? 'block' : 'none'
+          }}
+        >
+          {greeting}
+        </section>
+      </main>
+    </div>
   );
 }
-
-export default App;

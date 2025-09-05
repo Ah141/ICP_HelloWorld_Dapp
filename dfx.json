@@ -1,13 +1,13 @@
 {
   "canisters": {
-    "Hello_world_backend": {
-      "candid": "src/Hello_world_backend/Hello_world_backend.did",
-      "package": "Hello_world_backend",
+    "backend": {
+      "candid": "src/backend/backend.did",
+      "package": "backend",
       "type": "rust"
     },
     "Hello_world_frontend": {
       "dependencies": [
-        "Hello_world_backend"
+        "backend"
       ],
       "source": [
         "src/Hello_world_frontend/dist"
